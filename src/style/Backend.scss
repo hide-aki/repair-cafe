@@ -1,0 +1,14 @@
+.backend-container{
+  display: flex;
+  .backend-menu{
+    background-color: #4B5F83;
+    height: 100vh;
+    a{
+      display:block;
+      color: #fff;
+      &:link{
+        text-decoration: none;
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ import '../style/Admin.scss'
 import repair from '../img/repair.svg'; // Tell Webpack this JS file uses this image
 import logo from '../img/logo.svg';
 import LogIn from './LogIn'
+
 class Admin extends Component {
   render() {
     return (
