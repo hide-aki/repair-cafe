@@ -12,9 +12,7 @@ class Backend extends Component {
           <Link>個人資料</Link>
           <Link>報名活動</Link>
         </div>
-        <div>
-          <RepairList />
-        </div>
+        <RepairList />
       </div>
     )
   }
