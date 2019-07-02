@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Admin from './component/Admin'
 import Backend from './component/Backend'
+import RepairList from './component/RepairList'
 import { BrowserRouter, Route } from "react-router-dom";
 import './Landing.scss';
 
@@ -9,6 +10,7 @@ class Landing extends Component {
     return (
       <BrowserRouter>
         <div>
+          <RepairList />
           <Route path="/admin" component={Admin}></Route>
           <Route path="/volunteer" component={Backend}></Route>
         </div >

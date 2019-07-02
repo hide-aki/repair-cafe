@@ -13,8 +13,10 @@
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-tabulator": "^0.9.1",
     "sass-loader": "^7.1.0",
-    "semantic-ui-react": "^0.87.2"
+    "semantic-ui-react": "^0.87.2",
+    "tabulator-tables": "^4.2.7"
   },
   "scripts": {
     "start": "react-scripts start",
