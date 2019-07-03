@@ -10,9 +10,8 @@ class Landing extends Component {
     return (
       <BrowserRouter>
         <div>
-          <RepairList />
           <Route path="/admin" component={Admin}></Route>
-          <Route path="/volunteer" component={Backend}></Route>
+          <Route path="/list" component={RepairList}></Route>
         </div >
       </BrowserRouter>
     );
