@@ -5,6 +5,7 @@ import { ReactTabulator } from 'react-tabulator'
 import "tabulator-tables/dist/css/tabulator.min.css";
 import '../style/AddItem.scss'
 import AddItem from "./AddItem";
+import $ from 'jquery';
 
 class RepairMonitor extends Component {
   constructor() {
@@ -24,6 +25,7 @@ class RepairMonitor extends Component {
       const result = items.map((item, index) => {
         return {
           number: index + 1,
+          index: index,
           name: item[4],
           phone: item[5],
           itemname: item[1],
@@ -31,8 +33,7 @@ class RepairMonitor extends Component {
           itemdetail: item[2],
           itemstatus: '壞掉',
           volunteer: '',
-          fixresult: '',
-          fixnote: ''
+          dataconfirm: ''
         }
       })
       this.setState({
@@ -41,9 +42,58 @@ class RepairMonitor extends Component {
     }).catch()
   }
 
-  up = (table) => {
-    var rows = table.getRow(1); //return row component with index of 1
-    // var rowElement = rows.getElement();
+  updateData = async (e, cell) => {
+    const data = await cell.getData()
+    const category = data.category
+    const index = data.index.toString()
+    const volunteer = data.volunteer
+    const itemstatus = data.itemstatus
+    const number = data.number.toString()
+    console.log(index, number, volunteer, itemstatus)
+
+    await $.ajax({
+      type: "POST",
+      // headers: {
+      //   "Accept": "application/json; charset=utf-8",
+      //   "Content-Type": "application/json; charset=utf-8"
+      // },
+      // dataType: "json",
+      url: "https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec",
+      data: {
+        index, number, category
+      },
+      success: function (response) {
+        console.log("success");
+        return response
+      },
+      error: function () {
+        console.log("Error");
+      }
+
+    })
+    // $.post('https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec', {
+    //   category, index, volunteer, itemstatus, number
+    // }, function (e) {
+    //   console.log('jquery');
+    // })
+    // axios.defaults.headers.post['Content-Type'] = 'text/plain;charset=utf-8';
+    // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
+    // await axios.post('https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec', {
+    //   category, index, volunteer, itemstatus, number
+    // }, {
+    //     // method: 'post',
+    //     // url: 'https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec',
+    //     // data: null,
+    //     // params: null,
+    //     headers: {
+    //       'Content-Type': 'text/plain;charset=utf-8',
+    //     },
+    //   }).then(function (response) {
+    //     alert(response.data);
+    //   })
+    //   .catch(function (error) {
+    //     console.log("error222", error);
+    //   })
   }
 
   render() {
@@ -53,6 +103,9 @@ class RepairMonitor extends Component {
       columnVertAlign: "bottom",
       pagination: "local",
       paginationSize: 20,
+    };
+    const icon = function (cell, formatterParams, onRendered) {
+      return "<button>確認</button>";
     };
 
     const columns = [
@@ -76,10 +129,6 @@ class RepairMonitor extends Component {
             headerSort: false,
             formatter: "textarea",
             width: 200,
-            cellClick: function (e, cell) {
-              // var data = cell.getData()
-              console.log(cell.getRow().getData())
-            },
           }
         ],
       },
@@ -88,15 +137,36 @@ class RepairMonitor extends Component {
         columns: [
           {
             title: "維修志工", field: "volunteer", editor: "select", width: 70, align: "center", headerSort: false, editorParams: {
-              values: ["Michael", "Kira", "Sara", "Vita"], cellClick: function (e, cell) {
-                // var data = cell.getData()
-                console.log(cell.getRow().getData())
-              },
+              values: ["Michael", "Kira", "Sara", "Vita"],
             }
           },
           { title: "物品狀態", field: "itemstatus", align: "center", width: 70, headerSort: false, editor: "select", editorParams: { values: ["壞掉", "維修中", "修好了"] } },
           {
-            title: "維修紀錄", field: "fixnote", align: "center", editor: "textarea", headerSort: false, width: 200
+            title: "資料確認", field: "dataconfirm", headerSort: false, width: 70, formatter: icon,
+            cellClick: async function (e, cell) {
+              const data = await cell.getData()
+              const category = data.category
+              const index = data.index
+              const volunteer = data.volunteer
+              const itemstatus = data.itemstatus
+              const number = data.number
+
+              await $.ajax({
+                method: "POST",
+                url: "https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec",
+                data: {
+                  index, number, category, volunteer, itemstatus
+                },
+                success: function (response) {
+                  console.log("success");
+                  return response
+                },
+                error: function () {
+                  console.log("Error");
+                }
+
+              })
+            }
           },
 
         ]

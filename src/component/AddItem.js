@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios'
+import $ from 'jquery';
 
 class AddItem extends Component {
   constructor() {
@@ -17,7 +18,8 @@ class AddItem extends Component {
         name: '',
         phone: '',
         itemdetail: '',
-        itemname: ''
+        itemname: '',
+        index: ''
       }
     }
   }
@@ -46,27 +48,52 @@ class AddItem extends Component {
     })
   }
 
-  submitData = () => {
+  submitData = async () => {
     const name = this.state.addData.name;
     const phone = this.state.addData.phone
     const itemname = this.state.addData.itemname
     const itemdetail = this.state.addData.itemdetail
-    axios({
-      method: 'post',
-      url: 'https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec',
-      data: null,
-      params: {
+    console.log(name, phone, itemname, itemdetail)
+    // $.post('https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec', {
+    //   name, phone, itemname, itemdetail
+    // }, function (e) {
+    //   console.log('jquery');
+    // })
+    await $.ajax({
+      method: "POST",
+      // headers: {
+      //   "Accept": "application/json; charset=utf-8",
+      //   "Content-Type": "application/json; charset=utf-8"
+      // },
+      // dataType: "json",
+      url: "https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec",
+      data: {
         name, phone, itemname, itemdetail
+      },
+      success: function (response) {
+        console.log("success");
+      },
+      error: function () {
+        console.log("Error");
       }
-    })
-      .then(function (response) {
-        if (response == "成功") {
-          alert("成功");
-          this.setState({
-            modal: false
-          })
-        }
-      })
+    });
+    // await axios.post('https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec', {
+    //   name, phone, itemname, itemdetail
+    // }, {
+    //     // method: 'post',
+    //     // url: ,
+    //     // data: ,
+    //     // params: null,
+    //     headers: {
+    //       'Content-Type': 'text/plain;charset=utf-8',
+    //     },
+    //   }).then(function (response) {
+    //     alert(response.data);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   })
+    // await this.handleClickClose()
   }
 
 
