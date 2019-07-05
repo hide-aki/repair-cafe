@@ -53,19 +53,8 @@ class AddItem extends Component {
     const phone = this.state.addData.phone
     const itemname = this.state.addData.itemname
     const itemdetail = this.state.addData.itemdetail
-    console.log(name, phone, itemname, itemdetail)
-    // $.post('https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec', {
-    //   name, phone, itemname, itemdetail
-    // }, function (e) {
-    //   console.log('jquery');
-    // })
     await $.ajax({
       method: "POST",
-      // headers: {
-      //   "Accept": "application/json; charset=utf-8",
-      //   "Content-Type": "application/json; charset=utf-8"
-      // },
-      // dataType: "json",
       url: "https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec",
       data: {
         name, phone, itemname, itemdetail
@@ -77,23 +66,6 @@ class AddItem extends Component {
         console.log("Error");
       }
     });
-    // await axios.post('https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec', {
-    //   name, phone, itemname, itemdetail
-    // }, {
-    //     // method: 'post',
-    //     // url: ,
-    //     // data: ,
-    //     // params: null,
-    //     headers: {
-    //       'Content-Type': 'text/plain;charset=utf-8',
-    //     },
-    //   }).then(function (response) {
-    //     alert(response.data);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   })
-    // await this.handleClickClose()
   }
 
 
