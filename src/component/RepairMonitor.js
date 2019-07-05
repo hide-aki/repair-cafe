@@ -24,15 +24,15 @@ class RepairMonitor extends Component {
       const items = response.data
       const result = items.map((item, index) => {
         return {
-          number: index + 1,
+          number: item[8],
           index: index,
           name: item[4],
           phone: item[5],
           itemname: item[1],
-          category: '',
+          category: item[10],
           itemdetail: item[2],
-          itemstatus: '壞掉',
-          volunteer: '',
+          itemstatus: item[11],
+          volunteer: item[9],
           dataconfirm: ''
         }
       })
@@ -53,47 +53,17 @@ class RepairMonitor extends Component {
 
     await $.ajax({
       type: "POST",
-      // headers: {
-      //   "Accept": "application/json; charset=utf-8",
-      //   "Content-Type": "application/json; charset=utf-8"
-      // },
-      // dataType: "json",
       url: "https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec",
       data: {
         index, number, category
       },
       success: function (response) {
-        console.log("success");
-        return response
+        alert("成功")
       },
       error: function () {
         console.log("Error");
       }
-
     })
-    // $.post('https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec', {
-    //   category, index, volunteer, itemstatus, number
-    // }, function (e) {
-    //   console.log('jquery');
-    // })
-    // axios.defaults.headers.post['Content-Type'] = 'text/plain;charset=utf-8';
-    // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
-    // await axios.post('https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec', {
-    //   category, index, volunteer, itemstatus, number
-    // }, {
-    //     // method: 'post',
-    //     // url: 'https://script.google.com/macros/s/AKfycbypbhhQ6yB6Sfvf0UGyEkAbcC_cfWeLwDdd8cVHs2oYSCZqPnE/exec',
-    //     // data: null,
-    //     // params: null,
-    //     headers: {
-    //       'Content-Type': 'text/plain;charset=utf-8',
-    //     },
-    //   }).then(function (response) {
-    //     alert(response.data);
-    //   })
-    //   .catch(function (error) {
-    //     console.log("error222", error);
-    //   })
   }
 
   render() {
