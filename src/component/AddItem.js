@@ -66,6 +66,7 @@ class AddItem extends Component {
         console.log("Error");
       }
     });
+    await this.handleClickClose()
   }
 
 
